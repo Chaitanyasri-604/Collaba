@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TrendsSet Dashboard</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #f5f6fa; }
+    header, footer { background: #0984e3; color: #fff; padding: 15px; text-align: center; }
+    .container { display: flex; height: 90vh; }
+    .sidebar { width: 200px; background: #dfe6e9; padding: 15px; }
+    .content { flex: 1; padding: 15px; overflow: auto; }
+    .card { background: #fff; padding: 15px; margin: 10px 0; border-radius: 8px; }
+    nav li { list-style: none; margin: 10px 0; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+ <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- React App -->
+  <script type="text/babel">
+    const { useState } = React;
+    const Header = () => <header><h1>TrendsSet</h1></header>;
+    const Footer = () => <footer>© 2025 TrendsSet</footer>;
+    const Sidebar = ({ onSelect }) => (
+      <div className="sidebar">
+        <nav>
+          <ul>
+            <li onClick={() => onSelect('overview')}>Overview</li>
+            <li onClick={() => onSelect('social')}>Social</li>
+            <li onClick={() => onSelect('market')}>Market</li>
+            <li onClick={() => onSelect('tech')}>Tech</li>
+          </ul>
+        </nav>
+      </div>
+    );
+    const Card = ({ title, value }) => (
+      <div className="card">
+        <strong>{title}</strong><br />
+        <span>{value}</span>
+      </div>
+    );
+     const views = {
+      overview: [ ['Users Today', '12,345'], ['Top Hashtag', '#AI'] ],
+      social: [ ['Top Platform', 'Instagram'], ['Format', 'Reels'] ],
+      market: [ ['Top Sector', 'Green Energy'], ['S&P 500', '+2.8%'] ],
+      tech: [ ['Hot Topic', 'Gen AI'], ['New Launch', 'iPhone 16 Pro'] ]
+    };
+    const Content = ({ view }) => (
+      <div className="content">
+        <h2>{view.charAt(0).toUpperCase() + view.slice(1)} Trends</h2>
+        {views[view].map(([t, v], i) => <Card key={i} title={t} value={v} />)}
+      </div>
+    );
+    const App = () => {
+      const [view, setView] = useState('overview');
+      return (
+        <>
+          <Header />
+          <div className="container">
+            <Sidebar onSelect={setView} />
+            <Content view={view} />
+          </div>
+          <Footer />
+        </>
+      );
+    };
+ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
